@@ -1,0 +1,48 @@
+﻿@model SmartHome.Web.Models.HouseViewModel
+
+@{
+    ViewBag.Title = "Details";
+}
+<div class="row">
+    <div class="span3">
+        <legend>@Model.Name</legend>
+        <img src="@Model.ImageUrl" />
+    </div>
+    <div class="span6">
+        @Html.EditorFor(model => model.HouseSettingsViewModel)
+    </div>
+</div>
+
+<div id="floors">
+    @foreach (var floor in Model.FloorsViewModel)
+    {
+        <h3>@floor.Name</h3>
+        if (floor.RoomViewModel.Count() > 0)
+        {
+            <div class="floor-content">
+                <ul>
+                    @foreach (var room in floor.RoomViewModel)
+                    {
+                        <li>
+                            <a href="#room-@room.Name">@room.Name</a>
+                        </li>
+                    }
+                </ul>
+                @foreach (var room in floor.RoomViewModel)
+                {
+                    <div id="room-@room.Name">
+                        @Html.EditorFor(model => room.DevicesViewModel, "DevicesViewModel", "")
+                        @Html.EditorFor(model => room.SensorViewModel)
+                        @Html.EditorFor(model => room.ThermostatViewModel)
+                    </div>
+                }
+            </div>
+        }
+    }
+</div>
+<div id="temp-plot-container"></div>
+<div id="dialog-modal-temp"></div>
+<div id="dialog-modal-message"></div>
+@section Scripts {   
+<script src="~/Scripts/roomdetailsinit.js"></script>
+}

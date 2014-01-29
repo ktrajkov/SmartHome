@@ -1,0 +1,27 @@
+﻿<?xml version='1.0' encoding='utf-8'?>
+<SettingsFile xmlns="http://schemas.microsoft.com/VisualStudio/2004/01/settings" CurrentProfile="(Default)" GeneratedClassNamespace="SmartHome.Api.Properties" GeneratedClassName="Settings">
+  <Profiles />
+  <Settings>
+    <Setting Name="EmailServerName" Type="System.String" Scope="Application">
+      <Value Profile="(Default)">smtp.gmail.com</Value>
+    </Setting>
+    <Setting Name="EmailServerPort" Type="System.Int32" Scope="Application">
+      <Value Profile="(Default)">587</Value>
+    </Setting>
+    <Setting Name="EmailUseSsl" Type="System.Boolean" Scope="Application">
+      <Value Profile="(Default)">True</Value>
+    </Setting>
+    <Setting Name="EmailUsername" Type="System.String" Scope="Application">
+      <Value Profile="(Default)">kalin.trajkov@gmail.com</Value>
+    </Setting>
+    <Setting Name="EmailPassword" Type="System.String" Scope="Application">
+      <Value Profile="(Default)">Kalin.....</Value>
+    </Setting>
+    <Setting Name="EmailSubject" Type="System.String" Scope="Application">
+      <Value Profile="(Default)">Alarm Arduino</Value>
+    </Setting>
+    <Setting Name="EmailAdmin" Type="System.String" Scope="Application">
+      <Value Profile="(Default)">kalin.trajkov@gmail.com</Value>
+    </Setting>
+  </Settings>
+</SettingsFile>

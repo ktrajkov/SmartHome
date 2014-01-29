@@ -1,0 +1,32 @@
+﻿@model SmartHome.Web.Areas.Admin.Models.RoomEditAndDeleteViewModel
+
+@{
+    ViewBag.Title = "Delete";
+}
+
+<h2>Delete</h2>
+
+<h3>Are you sure you want to delete this Room?</h3>
+<fieldset>
+    <legend>Room</legend>
+
+    <dl>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Name)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Name)
+        </dd>
+    </dl>
+</fieldset>
+@using (Html.BeginForm())
+{  
+    <div class="form-actions no-color">
+        <input type="submit" value="Delete" class="btn" />       
+    </div>
+    <div>
+        @Html.ActionLink("Back to List", "List", "Rooms", new { FloorId = Model.FloorId }, new { @class = "btn" })
+    </div>
+}

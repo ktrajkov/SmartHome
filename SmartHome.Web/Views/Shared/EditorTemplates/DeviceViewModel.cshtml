@@ -1,0 +1,10 @@
+﻿@model SmartHome.Web.Models.DeviceViewModel
+
+<div class="switch-content">
+    @Model.Name
+    <div class="make-switch switch-small switch-size float-right-element">
+        @Html.CheckBoxFor(model=>model.State, new {@class = "make-switch switch-small" })
+    </div>
+</div>
+@Html.HiddenFor(model => Model.Id)
+

@@ -1,0 +1,58 @@
+﻿@model SmartHome.Web.Areas.Admin.Models.ThermostatCreateViewModel
+
+@{
+    ViewBag.Title = "Create Thermostat";
+}
+
+<h2>Create Thermostat</h2>
+
+@using (Html.BeginForm())
+{
+    @Html.ValidationSummary(true)
+
+    <fieldset class="form-horizontal">
+        <legend>Thermostat</legend>
+        @Html.HiddenFor(model => model.RoomId)
+
+        <div class="control-group">
+            @Html.LabelFor(model => model.State, new { @class = "control-label" })
+            <div class="controls">
+                @Html.EditorFor(model => model.State)
+                @Html.ValidationMessageFor(model => model.State, null, new { @class = "help-inline" })
+            </div>
+        </div>
+
+        <div class="control-group">
+            @Html.LabelFor(model => model.Behavior, new { @class = "control-label" })
+            <div class="controls">
+                @Html.EditorFor(model => model.Behavior)
+                @Html.ValidationMessageFor(model => model.Behavior, null, new { @class = "help-inline" })
+            </div>
+        </div>
+
+        <div class="control-group">
+            @Html.LabelFor(model => model.TargetTemp, new { @class = "control-label" })
+            <div class="controls">
+                @Html.EditorFor(model => model.TargetTemp)
+                @Html.ValidationMessageFor(model => model.TargetTemp, null, new { @class = "help-inline" })
+            </div>
+        </div>
+       
+        <div class="control-group">
+            @Html.LabelFor(model => model.DeviceId, new { @class = "control-label" })
+            <div class="controls">
+                @Html.DropDownListFor(d => d.DeviceId, Model.Devices, Model.DeviceId)
+                @Html.ValidationMessageFor(model => model.DeviceId, null, new { @class = "help-inline" })
+            </div>
+        </div>
+
+        <div class="form-actions no-color">
+            <input type="submit" value="Create" class="btn" />
+        </div>
+    </fieldset>
+}
+
+<div>
+    @Html.ActionLink("Back to Room", "RoomDetails", "Rooms", new { RoomId = Model.RoomId }, new { @class = "btn" })
+</div>
+

@@ -1,0 +1,317 @@
+﻿body {
+    padding-top: 60px;
+    padding-bottom: 40px;
+}
+
+/* styles for validation helpers */
+.field-validation-error {
+    color: #b94a48;
+}
+
+.field-validation-valid {
+    display: none;
+}
+
+input.input-validation-error {
+    border: 1px solid #b94a48;
+}
+
+input[type="checkbox"].input-validation-error {
+    border: 0 none;
+}
+
+.validation-summary-errors {
+    color: #b94a48;
+}
+
+.validation-summary-valid {
+    display: none;
+}
+
+/* styles for removing the background from form */
+.no-color {
+    background-color: white;
+    border-style: none;
+}
+
+.ui-tabs-vertical {
+}
+
+    .ui-tabs-vertical .ui-tabs-nav {
+        padding: .2em .1em .2em .2em;
+        float: left;
+        width: 8em;
+    }
+
+        .ui-tabs-vertical .ui-tabs-nav li {
+            clear: left;
+            width: 100%;
+            border-bottom-width: 1px !important;
+            border-right-width: 0 !important;
+            margin: 0 -1px .2em 0;
+            overflow-x: hidden;
+        }
+
+            .ui-tabs-vertical .ui-tabs-nav li a {
+                display: block;
+            }
+
+            .ui-tabs-vertical .ui-tabs-nav li.ui-tabs-active {
+                padding-bottom: 0;
+                padding-right: .1em;
+                border-right-width: 1px;
+                border-right-width: 1px;
+            }
+
+    .ui-tabs-vertical .ui-tabs-panel {
+        margin-left: 200px;
+    }
+
+.device-image {
+    display: block;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+    background: url(Images/plug.png) no-repeat;
+    width: 128px; /* Width of new image */
+    height: 128px; /* Height of new image */
+    padding-left: 180px; /* Equal to width of new image */
+}
+
+.current-temp {
+    font-size: 2.5em;
+    margin-left: 1.5em;
+    padding-top: 1em;
+    width: 4em;
+}
+
+.thermometer-image {
+    display: block;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+    background: url(Images/thermometer.png) no-repeat;
+    width: 128px; /* Width of new image */
+    height: 128px; /* Height of new image */
+}
+
+.thermostat-image {
+    display: block;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+    background: url(Images/thermostat.png) no-repeat;
+    width: 128px; /* Width of new image */
+    height: 128px; /* Height of new image */
+}
+
+.ui-slider {
+    height: 12px !important;
+    width: 10em;
+}
+
+.switch-size {
+    width: 80px;
+}
+
+.float-right-element {
+    float: right;
+    margin-right: 10px !important;
+}
+
+.switch-content {
+    margin-bottom: 30px;
+}
+
+.center-element {
+    margin-top: 2em;
+    margin-bottom: 1em;
+    margin-left: auto;
+    margin-right: auto;
+    display: block !important;
+}
+
+.text-center {
+    text-align: center;
+}
+
+.slider-content input {
+    text-align: center;
+    border: 0;
+    color: #0088cc;
+    font-weight: bold;
+}
+
+.ui-tabs-panel {
+    padding: 0px !important;
+    margin-left: 10px !important;
+}
+
+.room-element-content {
+    height: auto;
+    height: 360px;
+    border-right: 1px solid black;
+    margin-left: 10px !important;
+    float: left;
+    width: 16em;
+    overflow: auto;
+}
+
+    .room-element-content form {
+        margin-bottom: 0px;
+    }
+
+    .room-element-content .btn {
+        margin-top: 0px !important;
+        margin-bottom: 0px !important;
+    }
+
+.floor-content {
+    height: auto !important;
+    max-height: 360px !important;
+    padding-left: 0px !important;
+}
+
+.slider-content {
+    margin-bottom: 20px;
+}
+
+.room {
+    display: inline;
+}
+
+.slider-content input {
+    margin-bottom: 0px;
+}
+
+.target-temp-input {
+    width: 5em !important;
+}
+
+.range-temp-input {
+    width: 7em;
+}
+
+a.btn-statistics {
+    text-indent: -9999px;
+    padding: 0px;
+    background-image: url(Images/statistics.png);
+    margin-bottom: 0px;
+    margin-top: 0px;
+    width: 80px !important;
+    height: 26px;
+    background-color: #e6e6e6;
+}
+
+.statistics-content {
+    margin-bottom: 30px;
+}
+
+.settings-content {
+    position: relative !important;
+}
+
+    .settings-content .editor-field {
+        height: 44px;
+    }
+
+legend {
+    margin-bottom: 2px !important;
+}
+
+.settings-content input[type="number"], input[type="email"] {
+    display: inline;
+    width: 140px;
+    position: absolute;
+    left: 125px;
+}
+
+.settings-content label {
+    display: inline;
+}
+
+.room-element-content label {
+    display: inline;
+}
+
+.settings-content .field-validation-error {
+    position: absolute;
+    left: 300px;
+}
+
+.thermostat-content {
+    position: relative;
+}
+
+    .thermostat-content .field-validation-error {
+        width: 95%;
+        position: absolute;
+        bottom: 158px;
+        left: 1px;
+        min-height: 40px;
+        background-color: white;
+        text-align: center;
+        z-index: 10000;
+        border: 1px solid #b94a48;
+        background-color: #ffffff;
+        -moz-border-radius: 4px;
+        border-radius: 4px;
+        box-shadow: 10px 10px 5px #b94a48;
+    }
+
+input.hasDatepicker {
+    width: 85px;
+    margin-right: 20px;
+    margin-bottom: 0px;
+}
+
+.date-container .datepicker-content {
+    display: inline;
+}
+
+
+
+.date-container {
+    text-align: center;
+}
+
+#temp-plot {
+    height: 300px;
+}
+
+.date-container form {
+    margin: 0px;
+    display: inline;
+}
+
+.datepicker-content > * {
+    display: inline;
+}
+
+.datepicker-content label {
+    display: inline;
+}
+
+[tabindex] {
+    outline: none !important;
+}
+
+.datepicker-content h4 {
+    margin-right: 20px;
+}
+
+.temp-statistics {
+    width: 1100px;
+}
+
+
+
+table select {
+    width: 80px;
+}
+
+.navigation-houses img {
+    width: 120px;
+    height: 80px;
+}
+
+.noTitleStuff .ui-dialog-titlebar {
+    display: none;
+}

@@ -1,0 +1,38 @@
+﻿@model SmartHome.Web.Models.HouseSettingsViewModel
+
+@using (Ajax.BeginForm("EditSettings", "HouseSettings",
+            new AjaxOptions
+            {
+                InsertionMode = InsertionMode.Replace,
+                HttpMethod = "POST",
+                OnFailure = "closeDialogModalMessage('Error')",
+                OnBegin = "openDialogModalMessage",
+                OnSuccess = "closeDialogModalMessage('Completed')"
+            }))
+{
+    @Html.ValidationSummary(true)
+     @Html.AntiForgeryToken()
+    <fieldset>
+        <legend>Settings</legend>
+        <div class="settings-content">
+            <div class="editor-field">
+                @Html.LabelFor(model => model.CheckTempTime)
+                @Html.TextBoxFor(model => model.CheckTempTime, new { @Name = "CheckTempTime", @type = "number" })
+                @Html.ValidationMessage("CheckTempTime", new { @data_valmsg_for = "CheckTempTime" })
+            </div>
+            <div class="editor-field">
+                @Html.LabelFor(model => model.SendTempTime)
+                @Html.TextBoxFor(model => model.SendTempTime, new { @Name = "SendTempTime", @type = "number" })
+                @Html.ValidationMessage("SendTempTime", new { @data_valmsg_for = "SendTempTime" })
+            </div>
+            <div class="editor-field">
+                @Html.LabelFor(model => model.Email)
+                @Html.TextBoxFor(model => model.Email, new { @Name = "Email", @type = "email" })
+                @Html.ValidationMessage("Email", new { @data_valmsg_for = "Email" })               
+            </div>
+            <span id="save-settings-result"></span>
+        </div>
+    </fieldset>    
+    <input type="hidden" value="@Model.Id" name="Id" />
+    <input type="submit" value="Save" class="btn" />
+}

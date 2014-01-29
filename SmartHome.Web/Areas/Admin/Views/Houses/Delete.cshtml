@@ -1,0 +1,45 @@
+﻿@model SmartHome.Web.Areas.Admin.Models.HouseDeleteViewModel
+
+@{
+    ViewBag.Title = "Delete";
+}
+
+<h3>Are you sure you want to delete this house?</h3>
+<h4>If you want to delete this house also you  will clear the EEPROM on remote control system!</h4>
+    <fieldset>
+        <legend>House Delete</legend>
+
+        <dl>
+            <dt>
+                @Html.DisplayNameFor(model => model.Name)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.Name)
+            </dd>
+
+            <dt>
+                @Html.DisplayNameFor(model => model.Address)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.Address)
+            </dd>
+
+            <dt>
+                @Html.DisplayNameFor(model => model.DateCreate)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.DateCreate)
+            </dd>
+
+        </dl>
+    </fieldset>
+    @using (Html.BeginForm())
+    {
+        <div class="form-actions no-color">
+            <input type="submit" value="Delete" class="btn" />
+        </div>
+        @Html.ActionLink("Back to List", "List", null, new { @class = "btn" })
+    }

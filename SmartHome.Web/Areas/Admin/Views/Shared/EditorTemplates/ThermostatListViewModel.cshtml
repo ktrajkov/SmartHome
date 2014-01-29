@@ -1,0 +1,61 @@
+﻿@model SmartHome.Web.Areas.Admin.Models.ThermostatListViewModel
+
+<h3>Thermostat</h3>
+<br />
+
+@if (Model.ThermostatViewModel == null)
+{
+    @Html.ActionLink("Create New Thermostat", "Create", "Thermostats", new { RoomId = Model.RoomId }, null)
+    <br />
+}
+else
+{
+    <table class="table">
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.ThermostatViewModel.DeviceName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.ThermostatViewModel.State)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.ThermostatViewModel.Behavior)
+            </th>
+
+            <th>
+                @Html.DisplayNameFor(model => model.ThermostatViewModel.TargetTemp)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.ThermostatViewModel.ArduinoArrayThermostatId)
+            </th>
+            <th></th>
+        </tr>
+
+
+        <tr>
+            <td>
+                @Html.DisplayFor(model => model.ThermostatViewModel.DeviceName)
+            </td>
+            <td>
+                @Html.DisplayFor(model => model.ThermostatViewModel.State)
+            </td>
+            <td>
+                @Html.DisplayFor(model => model.ThermostatViewModel.Behavior)
+            </td>
+
+            <td>
+                @Html.DisplayFor(model => model.ThermostatViewModel.TargetTemp)
+            </td>
+            <td>
+                @Html.DisplayFor(model => model.ThermostatViewModel.ArduinoArrayThermostatId)
+            </td>
+            <td>
+                @Html.ActionLink("Edit", "Edit", "Thermostats", new { id = Model.ThermostatViewModel.Id }, null) |
+                @Html.ActionLink("Delete", "Delete", "Thermostats", new { id = Model.ThermostatViewModel.Id }, null)
+            </td>
+        </tr>
+
+    </table>
+}
+
+

@@ -1,0 +1,153 @@
+﻿@model SmartHome.Web.Areas.Admin.Models.HouseEditViewModel
+@{
+    ViewBag.Title = "Edit";
+}
+
+
+@using (Html.BeginForm("Edit", "Houses", FormMethod.Post, new { enctype = "multipart/form-data" }))
+{
+    @Html.ValidationSummary(true)
+
+    <fieldset class="form-horizontal">
+        <legend>Edit House</legend>
+
+        @Html.HiddenFor(model => model.Id)
+
+        <div class="control-group">
+            @Html.LabelFor(model => model.Name, new { @class = "control-label" })
+            <div class="controls">
+                @Html.EditorFor(model => model.Name)
+                @Html.ValidationMessageFor(model => model.Name, null, new { @class = "help-inline" })
+            </div>
+        </div>
+
+        <div class="control-group">
+            @Html.LabelFor(model => model.Address, new { @class = "control-label" })
+            <div class="controls">
+                @Html.EditorFor(model => model.Address)
+                @Html.ValidationMessageFor(model => model.Address, null, new { @class = "help-inline" })
+            </div>
+        </div>
+
+        <div class="control-group">
+            @Html.LabelFor(model => model.DateCreate, new { @class = "control-label" })
+            <div id="data-create-house" class="controls">
+                @Html.EditorFor(model => model.DateCreate)
+                @Html.ValidationMessageFor(model => model.DateCreate, null, new { @class = "help-inline" })
+            </div>
+        </div>
+
+        <div class="control-group">
+            @Html.Label("Image", new { @class = "control-label" })
+            <div class="controls">
+                <input type="file" name="ImageUpload" />
+            </div>
+        </div>
+
+        <div class="control-group">
+            @Html.LabelFor(model => model.SecretKey, new { @class = "control-label" })
+            <div class="controls">
+                @Html.PasswordFor(model => model.SecretKey, new { @autocomplete = "off" })
+                @Html.ValidationMessageFor(model => model.SecretKey, null, new { @class = "help-inline" })
+            </div>
+        </div>
+
+        <div class="control-group">
+            @Html.LabelFor(model => model.ServerIp, new { @class = "control-label" })
+            <div class="controls">
+                @Html.EditorFor(model => model.ServerIp)
+                @Html.ValidationMessageFor(model => model.ServerIp, null, new { @class = "help-inline" })
+            </div>
+        </div>
+
+        <div class="control-group">
+            @Html.LabelFor(model => model.ServerPort, new { @class = "control-label" })
+            <div class="controls">
+                @Html.EditorFor(model => model.ServerPort)
+                @Html.ValidationMessageFor(model => model.ServerPort, null, new { @class = "help-inline" })
+            </div>
+        </div>
+
+        <div class="control-group">
+            @Html.LabelFor(model => model.ReceiverIp, new { @class = "control-label" })
+            <div class="controls">
+                @Html.EditorFor(model => model.ReceiverIp)
+                @Html.ValidationMessageFor(model => model.ReceiverIp, null, new { @class = "help-inline" })
+            </div>
+        </div>
+
+        <div class="control-group">
+            @Html.LabelFor(model => model.TimeToCheckTemp, new { @class = "control-label" })
+            <div class="controls">
+                @Html.EditorFor(model => model.TimeToCheckTemp)
+                @Html.ValidationMessageFor(model => model.TimeToCheckTemp, null, new { @class = "help-inline" })
+            </div>
+        </div>
+
+        <div class="control-group">
+            @Html.LabelFor(model => model.TimeToSendTemp, new { @class = "control-label" })
+            <div class="controls">
+                @Html.EditorFor(model => model.TimeToSendTemp)
+                @Html.ValidationMessageFor(model => model.TimeToSendTemp, null, new { @class = "help-inline" })
+            </div>
+        </div>
+
+        <div class="control-group">
+            @Html.LabelFor(model => model.MaxNumberPins, new { @class = "control-label" })
+            <div class="controls">
+                @Html.EditorFor(model => model.MaxNumberPins)
+                @Html.ValidationMessageFor(model => model.MaxNumberPins, null, new { @class = "help-inline" })
+            </div>
+        </div>
+
+        <div class="control-group">
+            @Html.LabelFor(model => model.MaxArraySizeTermostats, new { @class = "control-label" })
+            <div class="controls">
+                @Html.EditorFor(model => model.MaxArraySizeTermostats)
+                @Html.ValidationMessageFor(model => model.MaxArraySizeTermostats, null, new { @class = "help-inline" })
+            </div>
+        </div>
+
+        <div class="control-group">
+            @Html.LabelFor(model => model.MaxArraySizeSensors, new { @class = "control-label" })
+            <div class="controls">
+                @Html.EditorFor(model => model.MaxArraySizeSensors)
+                @Html.ValidationMessageFor(model => model.MaxArraySizeSensors, null, new { @class = "help-inline" })
+            </div>
+        </div>
+
+        <div class="control-group">
+            @Html.LabelFor(model => model.UserId, new { @class = "control-label" })
+            <div class="controls">
+                @Html.DropDownListFor(model => model.UserId, Model.Users)
+                @Html.ValidationMessageFor(model => model.UserId, null, new { @class = "help-inline" })
+            </div>
+        </div>
+
+        <div class="form-actions no-color">
+            <input type="submit" value="Save" class="btn" />
+        </div>
+    </fieldset>
+}
+
+<div>
+    @Html.ActionLink("Back to List", "List", null, new { @class = "btn" })
+</div>
+
+@section Scripts {
+    <script>
+        $(function () {
+            $("#DateCreate").datepicker({ dateFormat: "dd/mm/yy" });
+            jQuery.validator.methods["date"] = function (value, element) {
+                var shortDateFormat = "dd/mm/yy";
+                var res = true;
+                try {
+                    $.datepicker.parseDate(shortDateFormat, value);
+                } catch (error) {
+                    res = false;
+                }
+                return res;
+            }
+        });
+    </script>
+}

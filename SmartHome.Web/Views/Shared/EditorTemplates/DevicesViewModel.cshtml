@@ -1,0 +1,27 @@
+﻿@model IEnumerable<SmartHome.Web.Models.DeviceViewModel>
+
+@if (Model.Count() > 0)
+{
+    <div class="devices-content room-element-content">
+        <div class="device-image"></div>
+        @using (Ajax.BeginForm("EditDevices", "RoomSettings",
+                                        new AjaxOptions
+                                        {
+                                            InsertionMode = InsertionMode.Replace,
+                                            HttpMethod = "POST",
+                                            UpdateTargetId = "dialog-modal-message",
+                                            OnFailure = "closeDialogModalMessage('Error')",
+                                            OnBegin = "openDialogModalMessage",
+                                            OnSuccess = "closeDialogModalMessage('Completed')"
+                                        }))
+        {
+             @Html.AntiForgeryToken()
+            var devicesViewModel = Model.ToArray();
+            for (int i = 0; i < devicesViewModel.Count(); i++)
+            {
+                @Html.EditorFor(model => devicesViewModel[i])
+            }
+            <input type="submit" value="Save" class="btn  center-element" />
+        }
+    </div>
+}

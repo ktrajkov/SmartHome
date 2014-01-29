@@ -1,0 +1,16 @@
+﻿@model SmartHome.Web.Areas.Admin.Models.RoomDetailsViewModel
+@{
+    ViewBag.Title = "Room Details";
+}
+
+<h2>Room Details</h2>
+
+@Html.EditorFor(model => model.DevicesListViewModel)
+
+
+@Html.EditorFor(model => model.SensorListViewModel)
+
+
+@Html.EditorFor(model => model.ThermostatListViewModel)
+<br />
+@Html.ActionLink("Back to Rooms", "List", "Rooms", new { FloorId = Model.FloorId }, new { @class = "btn" })

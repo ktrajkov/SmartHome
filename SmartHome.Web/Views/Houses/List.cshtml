@@ -1,0 +1,26 @@
+﻿@model IEnumerable<SmartHome.Web.Models.NavigationHouseViewModel>
+
+@{
+    ViewBag.Title = "Houses";
+}
+
+@if(Model==null)
+{
+    <h2>No Houses</h2>
+}
+else
+{    
+    <h2>Houses</h2>
+    <div class="row navigation-houses">
+    @foreach (var house in Model)
+    {
+        <div class="span2">
+            <a class="btn" href="@Url.Action("Details", "Houses", new {@houseId=house.Id })">
+                <img src="@house.ImageUrl" />
+            </a>
+            <p>@house.Name</p>
+        </div>
+    }
+</div>
+}
+

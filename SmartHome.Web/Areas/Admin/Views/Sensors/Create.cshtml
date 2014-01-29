@@ -1,0 +1,57 @@
+﻿@model SmartHome.Web.Areas.Admin.Models.SensorCreteViewModel
+@{
+    ViewBag.Title = "Create Sensor";
+}
+
+<h2>Create Sensor</h2>
+
+@using (Html.BeginForm()) 
+{
+    @Html.ValidationSummary(true)
+
+    <fieldset class="form-horizontal">
+        <legend>Sensor</legend>
+        @Html.HiddenFor(model=>model.RoomId)
+
+        <div class="control-group">
+            @Html.LabelFor(model => model.AttachedPin, new { @class = "control-label" })
+            <div class="controls">
+                @Html.DropDownListFor(model=>model.AttachedPin,Model.AllowedPins)           
+                @Html.ValidationMessageFor(model => model.AttachedPin, null, new { @class = "help-inline" })
+            </div>
+        </div>
+                      
+        <div class="control-group">
+            @Html.LabelFor(model => model.AlarmCheck, new { @class = "control-label" })
+            <div class="controls">
+                @Html.EditorFor(model => model.AlarmCheck)
+                @Html.ValidationMessageFor(model => model.AlarmCheck, null, new { @class = "help-inline" })
+            </div>
+        </div>
+
+        <div class="control-group">
+            @Html.LabelFor(model => model.MinTempAlert, new { @class = "control-label" })
+            <div class="controls">
+                @Html.EditorFor(model => model.MinTempAlert)
+                @Html.ValidationMessageFor(model => model.MinTempAlert, null, new { @class = "help-inline" })
+            </div>
+        </div>
+
+        <div class="control-group">
+            @Html.LabelFor(model => model.MaxTempAlert, new { @class = "control-label" })
+            <div class="controls">
+                @Html.EditorFor(model => model.MaxTempAlert)
+                @Html.ValidationMessageFor(model => model.MaxTempAlert, null, new { @class = "help-inline" })
+            </div>
+        </div>
+
+        <div class="form-actions no-color">
+            <input type="submit" value="Create" class="btn" />
+        </div>
+    </fieldset>
+}
+
+<div>
+    @Html.ActionLink("Back to Room", "RoomDetails", "Rooms", new { RoomId = Model.RoomId }, new { @class = "btn" })
+</div>
+

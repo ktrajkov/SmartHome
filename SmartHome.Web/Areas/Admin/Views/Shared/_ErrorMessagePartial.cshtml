@@ -1,0 +1,10 @@
+﻿@model string
+@{
+    ViewBag.Title = "ErrorMessage";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Error Message</h2>
+
+<h3>@Model</h3>
+<a href=@Html.Encode(Request.UrlReferrer.ToString()) class="btn">Back</a>

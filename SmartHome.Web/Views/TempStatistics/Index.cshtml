@@ -1,0 +1,13 @@
+﻿@model SmartHome.Web.Models.DateRangeViewModel
+<div id="temp-statistics">
+    <div class="row">
+        <div class="date-container span12">
+            @Html.EditorFor(model => model)
+        </div>
+    </div>
+    <div class="row">
+        <div id="temp-plot" class="span12"></div>
+    </div>
+</div>
+<script src="~/Scripts/tempstatistic.js"></script>
+

@@ -1,0 +1,74 @@
+﻿@model SmartHome.Models.Sensor
+
+@{
+    ViewBag.Title = "Delete Sensor";
+}
+
+<h2>Delete Sensor</h2>
+
+<h3>Are you sure you want to delete this Sensor?</h3>
+<fieldset>
+    <legend>Sensor</legend>
+
+    <dl>
+        <dt>
+            @Html.DisplayNameFor(model => model.AttachedPin)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.AttachedPin)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.CurrentTemp)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.CurrentTemp)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.ArduinoArraySensorsId)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.ArduinoArraySensorsId)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.AlarmCheck)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.AlarmCheck)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.MinTempAlert)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.MinTempAlert)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.MaxTempAlert)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.MaxTempAlert)
+        </dd>
+
+    </dl>
+</fieldset>
+
+<h3>If there is a thermostat in the room, it will be deleted</h3>
+@using (Html.BeginForm()) {
+    <div class="form-actions no-color">
+        <input type="submit" value="Delete" class="btn" />        
+    </div>
+    <div>
+        @Html.ActionLink("Back to Room", "RoomDetails", "Rooms", new { RoomId = Model.RoomId }, new { @class = "btn" })
+    </div>
+
+}

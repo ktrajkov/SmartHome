@@ -1,0 +1,44 @@
+﻿@model SmartHome.Web.Models.DateRangeViewModel
+@using (Ajax.BeginForm("GetTempStatistics", "TempStatistics",
+                                new AjaxOptions
+                                {
+                                    InsertionMode = InsertionMode.Replace,
+                                    HttpMethod = "POST",
+                                    OnFailure = "closeDialogModalMessage('Error')",
+                                    OnBegin = "openDialogModalMessage",
+                                    OnSuccess = "(function(){ closeDialogModalMessage('Completed');updateTempPlot(data,'#temp-plot')})()",     
+                                },
+                                new
+                                {
+                                    id = "temp-range-form"
+                                }))
+{
+    @Html.ValidationSummary(true)
+    @Html.AntiForgeryToken()
+    <div class="datepicker-content">
+        <h4 tabindex="1">Select Dates: </h4>
+        <div class="editor-label">
+            @Html.LabelFor(model => model.FromDate)
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(model => model.FromDate)
+            @Html.ValidationMessageFor(model => model.FromDate)
+        </div>
+
+    </div>
+    <div class="datepicker-content">
+        <div class="editor-label">
+            @Html.LabelFor(model => model.ToDate)
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(model => model.ToDate)
+            @Html.ValidationMessageFor(model => model.ToDate)
+        </div>
+    </div>
+    @Html.HiddenFor(model => model.SensorId)
+    <input type="submit" id="btn-temp-ramge" value="View" class="btn" />
+}
+
+
+
+

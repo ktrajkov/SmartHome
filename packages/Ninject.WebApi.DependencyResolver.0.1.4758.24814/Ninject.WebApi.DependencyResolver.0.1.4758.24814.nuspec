@@ -1,0 +1,20 @@
+<?xml version="1.0"?>
+<package xmlns="http://schemas.microsoft.com/packaging/2011/08/nuspec.xsd">
+  <metadata>
+    <id>Ninject.WebApi.DependencyResolver</id>
+    <version>0.1.4758.24814</version>
+    <title>Ninject.WebApi.DependencyResolver</title>
+    <authors>Seth Webster</authors>
+    <owners>Seth Webster</owners>
+    <licenseUrl>http://opensource.org/licenses/MIT</licenseUrl>
+    <projectUrl>https://github.com/sethwebster/NinjectDependencyResolver</projectUrl>
+    <requireLicenseAcceptance>false</requireLicenseAcceptance>
+    <description>A dependency resolver for Ninject and WebApi - based on work by Brad Wilson</description>
+    <releaseNotes>Summary of changes made in this release of the package.</releaseNotes>
+    <copyright>Copyright 2013</copyright>
+    <tags>Ninject WebApi DI DependencyInjection</tags>
+    <dependencies>
+      <dependency id="Ninject.Web.Common" version="3.0.0.7" />
+    </dependencies>
+  </metadata>
+</package>

@@ -1,0 +1,61 @@
+﻿@model SmartHome.Web.Areas.Admin.Models.SensorListViewModel
+
+<h3>Sensor</h3>
+<br />
+@if (Model.SensorViewModel == null)
+{
+    @Html.ActionLink("Create New Sensor", "Create", "Sensors", new { RoomId = Model.RoomId }, null)
+    <br />
+}
+else
+{
+    <table class="table">
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.SensorViewModel.AttachedPin)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.SensorViewModel.CurrentTemp)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.SensorViewModel.ArduinoArraySensorsId)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.SensorViewModel.AlarmCheck)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.SensorViewModel.MinTempAlert)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.SensorViewModel.MaxTempAlert)
+            </th>
+            <th></th>
+        </tr>
+
+        <tr>
+            <td>
+                @Html.DisplayFor(model => model.SensorViewModel.AttachedPin)
+            </td>
+            <td>
+                @Html.DisplayFor(model => model.SensorViewModel.CurrentTemp)
+            </td>
+            <td>
+                @Html.DisplayFor(model => model.SensorViewModel.ArduinoArraySensorsId)
+            </td>
+            <td>
+                @Html.DisplayFor(model => model.SensorViewModel.AlarmCheck)
+            </td>
+            <td>
+                @Html.DisplayFor(model => model.SensorViewModel.MinTempAlert)
+            </td>
+            <td>
+                @Html.DisplayFor(model => model.SensorViewModel.MaxTempAlert)
+            </td>
+            <td>
+                @Html.ActionLink("Edit", "Edit", "Sensors", new { id = Model.SensorViewModel.Id }, null) |
+                @Html.ActionLink("Delete", "Delete", "Sensors", new { id = Model.SensorViewModel.Id }, null)
+            </td>
+        </tr>
+    </table>
+}
+

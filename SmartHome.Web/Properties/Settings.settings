@@ -1,0 +1,51 @@
+﻿<?xml version='1.0' encoding='utf-8'?>
+<SettingsFile xmlns="http://schemas.microsoft.com/VisualStudio/2004/01/settings" CurrentProfile="(Default)" GeneratedClassNamespace="SmartHome.Web.Properties" GeneratedClassName="Settings">
+  <Profiles />
+  <Settings>
+    <Setting Name="MaxNumberPins" Type="System.Int16" Scope="Application">
+      <Value Profile="(Default)">20</Value>
+    </Setting>
+    <Setting Name="ServerIp" Type="System.String" Scope="Application">
+      <Value Profile="(Default)">127.0.0.1</Value>
+    </Setting>
+    <Setting Name="ReceiverIp" Type="System.String" Scope="Application">
+      <Value Profile="(Default)">127.0.0.1</Value>
+    </Setting>
+    <Setting Name="TimeToCheckTemp" Type="System.Int32" Scope="Application">
+      <Value Profile="(Default)">1</Value>
+    </Setting>
+    <Setting Name="TimeToSendTemp" Type="System.Int32" Scope="Application">
+      <Value Profile="(Default)">1</Value>
+    </Setting>
+    <Setting Name="MaxArraySizeSensors" Type="System.Byte" Scope="Application">
+      <Value Profile="(Default)">1</Value>
+    </Setting>
+    <Setting Name="MaxArraySizeTermostats" Type="System.Byte" Scope="Application">
+      <Value Profile="(Default)">1</Value>
+    </Setting>
+    <Setting Name="HousesPathImages" Type="System.String" Scope="Application">
+      <Value Profile="(Default)">/Content/Images/Houses/</Value>
+    </Setting>
+    <Setting Name="DefaultHouseImage" Type="System.String" Scope="Application">
+      <Value Profile="(Default)">DefaultHouse.jpg</Value>
+    </Setting>
+    <Setting Name="MinTempAlert" Type="System.Double" Scope="Application">
+      <Value Profile="(Default)">-20</Value>
+    </Setting>
+    <Setting Name="MaxTempAlert" Type="System.Double" Scope="Application">
+      <Value Profile="(Default)">60</Value>
+    </Setting>
+    <Setting Name="MinTempThermostat" Type="System.Double" Scope="Application">
+      <Value Profile="(Default)">-2</Value>
+    </Setting>
+    <Setting Name="MaxTempThermostat" Type="System.Double" Scope="Application">
+      <Value Profile="(Default)">30</Value>
+    </Setting>
+    <Setting Name="NumberOfRecentTemp" Type="System.Int32" Scope="Application">
+      <Value Profile="(Default)">5</Value>
+    </Setting>
+    <Setting Name="ServerPort" Type="System.Int32" Scope="Application">
+      <Value Profile="(Default)">8080</Value>
+    </Setting>
+  </Settings>
+</SettingsFile>

@@ -1,0 +1,58 @@
+﻿@model SmartHome.Web.Models.SensorViewModel
+
+@if (Model != null)
+{
+    <div class="sensor-content room-element-content">
+        @if (Model.CurrentTemp != null)
+        {
+            <div class="thermometer-image">
+                <div class="current-temp">
+                   @Html.DisplayFor(model=>model.CurrentTemp)
+                     ℃
+                </div>
+            </div>
+        }
+        <div class="statistics-content">
+            Statistics
+            @Ajax.ActionLink("upload", "Index", "TempStatistics", new { SensorId = @Model.Id },
+                                    new AjaxOptions
+                                    {
+                                        InsertionMode = InsertionMode.Replace,
+                                        HttpMethod = "GET",
+                                        UpdateTargetId = "dialog-modal-temp",
+                                        OnSuccess = "openDialogModalTemp()",
+                                    }, new { @class = "btn btn-statistics float-right-element" })
+        </div>
+        <div class="alarm-content">
+            @using (Ajax.BeginForm("EditSensor", "RoomSettings",
+                                new AjaxOptions
+                                {
+                                    InsertionMode = InsertionMode.Replace,
+                                    HttpMethod = "POST",
+                                    UpdateTargetId = "dialog-modal-message",
+                                    OnFailure = "closeDialogModalMessage('Error')",
+                                    OnBegin = "openDialogModalMessage",
+                                    OnSuccess = "closeDialogModalMessage('Completed')"
+                                }))
+            {
+                @Html.AntiForgeryToken()
+                <div class="switch-content">
+                    @Html.LabelFor(model => model.AlarmCheck)
+                    <div class="make-switch switch-small  switch-size float-right-element">
+                        @Html.CheckBoxFor(model => Model.AlarmCheck, new { @Name = "AlarmCheck", @class = "make-switch switch-small alarm-checkbox" })
+                        <input name="AlarmCheck" type="hidden" value="false">
+                    </div>
+                </div>
+                <div class="temp-range-slider-content slider-content">
+                    <label for="range-input-@Model.Id">Range ℃</label>
+                    <input id="range-input-@Model.Id" type="text" class="range-temp-input float-right-element" readonly />
+                    <div class="center-element slider-temp-range"></div>
+                    @Html.HiddenFor(model => Model.MinTempAlert, new { @Name = "MinTempAlert", @class = "min-temp-alert-value" })
+                    @Html.HiddenFor(model => Model.MaxTempAlert, new { @Name = "MaxTempAlert", @class = "max-temp-alert-value" })
+                </div>
+                @Html.HiddenFor(model => Model.Id, new { @Name = "Id" })
+                <input type="submit" value="Save" class="btn center-element" />
+            }
+        </div>
+    </div>
+}

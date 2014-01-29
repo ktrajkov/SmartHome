@@ -1,0 +1,33 @@
+﻿@model SmartHome.Web.Areas.Admin.Models.FloorListViewModel
+
+@{
+    ViewBag.Title = "Index";
+}
+<h2>Floors</h2>
+<p>
+    @Html.ActionLink("Create New Floor", "Create", new { HouseId = Model.HouseId })
+</p>
+<table class="table">
+    <tr>        
+        <th>
+            @Html.DisplayNameFor(model => model.Floors.FirstOrDefault().Name)
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model.Floors) {
+    <tr>
+       
+        <td>
+            @Html.ActionLink(Html.DisplayFor(modelItem => item.Name).ToString(), "List", "Rooms", new { FloorId = item.Id }, null)
+        </td>
+        <td>
+            @Html.ActionLink("Edit", "Edit", new { id=item.Id }) |
+            @Html.ActionLink("Delete", "Delete", new { id = item.Id })           
+        </td>
+    </tr>
+}
+</table>
+<div>
+    @Html.ActionLink("Back to Houses", "List", "Houses",null, new { @class = "btn" })
+</div>

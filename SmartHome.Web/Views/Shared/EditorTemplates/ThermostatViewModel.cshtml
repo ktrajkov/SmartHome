@@ -1,0 +1,45 @@
+﻿@model SmartHome.Web.Models.ThermostatViewModel
+
+@if (Model!= null)
+{
+    <div class="thermostat-content room-element-content ">
+        @using (Ajax.BeginForm("EditThermostat", "RoomSettings",
+                                new AjaxOptions
+                                {
+                                    InsertionMode = InsertionMode.Replace,
+                                    HttpMethod = "POST",
+                                    UpdateTargetId = "dialog-modal-message",
+                                    OnFailure = "closeDialogModalMessage('Error')",
+                                    OnBegin = "openDialogModalMessage",
+                                    OnSuccess = "closeDialogModalMessage('Completed')"
+                                }))
+        {
+
+            @Html.ValidationSummary(true)
+             @Html.AntiForgeryToken()
+            @Html.HiddenFor(model=>Model.Id, new { @Name ="Id"})
+            <div class="thermostat-image"></div>
+            <div class="switch-content">
+                @Html.LabelFor(model => model.State)
+                <div class="make-switch switch-small switch-size float-right-element">
+                    @Html.CheckBoxFor(model => Model.State, new { @Name = "State", @class = "make-switch switch-small thermostat-state-checkbox" })
+
+                </div>
+            </div>
+            <div class="switch-content">
+                @Html.LabelFor(model => model.Behavior)
+                <div class="make-switch thermostat-behavior switch-small  switch-size float-right-element" data-on-label="Warm" data-off-label="Cold" data-off="primary" data-on="danger">
+                    @Html.CheckBoxFor(model => Model.Behavior, new { @Name = "Behavior" })
+                </div>
+            </div>
+            <div class="target-temp-slider-content slider-content">
+                <label for="target-temp-input-@Model.Id">Temp target ℃</label>
+                @Html.TextBoxFor(model => model.TargetTemp, new { @Name = "TargetTemp", @Id = "target-temp-input-" + @Model.Id, @class = "target-temp-input float-right-element", @Value = @Model.TargetTemp })
+                @Html.ValidationMessage("TargetTemp", new { @data_valmsg_for = "TargetTemp" })
+                <div class="slider-target-temp center-element"></div>              
+            </div>
+          
+            <input type="submit" value="Save" class="btn center-element" />
+        }
+    </div>
+}

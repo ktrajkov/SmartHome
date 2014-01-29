@@ -1,0 +1,17 @@
+﻿@model Exception
+@{
+    ViewBag.Title = "ExceptionView";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h1>Exception</h1>
+
+
+@{
+    ViewBag.Title = "ExceptionView";
+}
+
+
+<h2>@Model.Message</h2>
+<h3>@Model.InnerException</h3>
+<a href=@Html.Encode(Request.UrlReferrer.ToString())>Back</a>
