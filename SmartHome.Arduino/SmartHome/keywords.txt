@@ -1,0 +1,3 @@
+Room	KEYWORD1
+GetTargetTemp	KEYWORD2
+GetCurrentTemp KEYWORD2
