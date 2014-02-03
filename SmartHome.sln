@@ -13,6 +13,10 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SmartHome.RemoteControl", "
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SmartHome.Api", "SmartHome.Api\SmartHome.Api.csproj", "{DC42BC54-A08F-42A6-92BC-0469A34D8829}"
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "SmartHome.Arduino", "SmartHome.Arduino\SmartHome.Arduino.vcxproj", "{F5FBE93F-6D2F-4211-8F72-A77D3DC8FDDE}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "SmartHome.Arduino", "C:\Users\Kalin-PC\Documents\Arduino\SmartHome.Arduino\SmartHome.Arduino.vcxproj", "{C729384A-8B58-4974-82BF-1868A7A25E2E}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -73,6 +77,26 @@ Global
 		{DC42BC54-A08F-42A6-92BC-0469A34D8829}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
 		{DC42BC54-A08F-42A6-92BC-0469A34D8829}.Release|Mixed Platforms.Build.0 = Release|Any CPU
 		{DC42BC54-A08F-42A6-92BC-0469A34D8829}.Release|Win32.ActiveCfg = Release|Any CPU
+		{F5FBE93F-6D2F-4211-8F72-A77D3DC8FDDE}.Debug|Any CPU.ActiveCfg = Debug|Win32
+		{F5FBE93F-6D2F-4211-8F72-A77D3DC8FDDE}.Debug|Mixed Platforms.ActiveCfg = Debug|Win32
+		{F5FBE93F-6D2F-4211-8F72-A77D3DC8FDDE}.Debug|Mixed Platforms.Build.0 = Debug|Win32
+		{F5FBE93F-6D2F-4211-8F72-A77D3DC8FDDE}.Debug|Win32.ActiveCfg = Debug|Win32
+		{F5FBE93F-6D2F-4211-8F72-A77D3DC8FDDE}.Debug|Win32.Build.0 = Debug|Win32
+		{F5FBE93F-6D2F-4211-8F72-A77D3DC8FDDE}.Release|Any CPU.ActiveCfg = Release|Win32
+		{F5FBE93F-6D2F-4211-8F72-A77D3DC8FDDE}.Release|Mixed Platforms.ActiveCfg = Release|Win32
+		{F5FBE93F-6D2F-4211-8F72-A77D3DC8FDDE}.Release|Mixed Platforms.Build.0 = Release|Win32
+		{F5FBE93F-6D2F-4211-8F72-A77D3DC8FDDE}.Release|Win32.ActiveCfg = Release|Win32
+		{F5FBE93F-6D2F-4211-8F72-A77D3DC8FDDE}.Release|Win32.Build.0 = Release|Win32
+		{C729384A-8B58-4974-82BF-1868A7A25E2E}.Debug|Any CPU.ActiveCfg = Debug|Win32
+		{C729384A-8B58-4974-82BF-1868A7A25E2E}.Debug|Mixed Platforms.ActiveCfg = Debug|Win32
+		{C729384A-8B58-4974-82BF-1868A7A25E2E}.Debug|Mixed Platforms.Build.0 = Debug|Win32
+		{C729384A-8B58-4974-82BF-1868A7A25E2E}.Debug|Win32.ActiveCfg = Debug|Win32
+		{C729384A-8B58-4974-82BF-1868A7A25E2E}.Debug|Win32.Build.0 = Debug|Win32
+		{C729384A-8B58-4974-82BF-1868A7A25E2E}.Release|Any CPU.ActiveCfg = Release|Win32
+		{C729384A-8B58-4974-82BF-1868A7A25E2E}.Release|Mixed Platforms.ActiveCfg = Release|Win32
+		{C729384A-8B58-4974-82BF-1868A7A25E2E}.Release|Mixed Platforms.Build.0 = Release|Win32
+		{C729384A-8B58-4974-82BF-1868A7A25E2E}.Release|Win32.ActiveCfg = Release|Win32
+		{C729384A-8B58-4974-82BF-1868A7A25E2E}.Release|Win32.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

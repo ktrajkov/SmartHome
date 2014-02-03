@@ -1,4 +1,4 @@
-﻿#include "Arduino.h"
+#include "Arduino.h"
 #include <EDB.h>
 #include <OneWire.h>
 #include <DallasTemperature.h>
@@ -30,29 +30,29 @@
 #define ApiControllerURL "/Api/Arduino/"
 
 struct Configuration
-{  
-	long timeToCheckTemp; 
-	long timeToSendTemp; 
+{
+	long timeToCheckTemp;
+	long timeToSendTemp;
 	int serverPort;
 	IPAddress serverIp;
 }configuration;
 
 
-Sensor sensors[ArraySensorsSize];		  
+Sensor sensors[ArraySensorsSize];
 Termostat termostats[ArrayTermostatsSize];
-PinState pinsState[MaxNumberPins];  
+PinState pinsState[MaxNumberPins];
 
 
-byte mac[] = {0xDE, 0xAD, 0xBE, 0xEF, 0xFE, 0xED }; 
+byte mac[] = { 0xDE, 0xAD, 0xBE, 0xEF, 0xFE, 0xED };
 EthernetClient ethernetClient;
 
 EthernetServer server(80);
 //YalerEthernetServer server("try.yaler.net", 80, "gsiot-nn6r-wbbg");
 
-IPAddress arduinoIp(192,168,3,2);
+IPAddress arduinoIp(192, 168, 3, 2);
 //IPAddress serverIp(192,168,2,108);
 
-unsigned long time,checkTemploop,checkSendTemp;
+unsigned long time, checkTemploop, checkSendTemp;
 
 #pragma endregion
 
@@ -79,7 +79,7 @@ void setup()
 	PrintSensors();
 
 	Serial.println("------Print Pin State------------");
-	PrintPinsState();	
+	PrintPinsState();
 
 	Serial.println("---------Print Termostat---------");
 	PrintTermostats();
@@ -90,29 +90,29 @@ void setup()
 	Serial.println("--------End Print----------");
 #pragma endregion
 
-	InitPinsState();	
-	Ethernet.begin(mac,arduinoIp);	
+	InitPinsState();
+	Ethernet.begin(mac, arduinoIp);
 	server.begin();
 
-	unsigned long milis=millis();
-	time=checkTemploop=checkSendTemp=milis;		
+	unsigned long milis = millis();
+	time = checkTemploop = checkSendTemp = milis;
 }
 
-void loop() 
+void loop()
 {
 
-	while(true)
-	{	
-		time=millis();
+	while (true)
+	{
+		time = millis();
 		if (time >= checkTemploop)
-		{ 
-			checkTemploop = time +configuration.timeToCheckTemp;
+		{
+			checkTemploop = time + configuration.timeToCheckTemp;
 			CheckTermostats();
 			CheckSensorAlarm();
 		}
-		if(time >= checkSendTemp)
+		if (time >= checkSendTemp)
 		{
-			checkSendTemp=time +configuration.timeToSendTemp;
+			checkSendTemp = time + configuration.timeToSendTemp;
 			SendTempsToServer();
 		}
 		CheckClient();
@@ -121,32 +121,32 @@ void loop()
 
 void CheckClient()
 {
-	boolean enterData=false;
+	boolean enterData = false;
 	char c;
 	String readString = "";
 	EthernetClient client = server.available();
 	if (client)
 	{
-		readString="";
+		readString = "";
 		while (client.connected())
 		{
-			if(client.available()) 
+			if (client.available())
 			{
-				if(enterData==true)
-				{				
-					readString="";
+				if (enterData == true)
+				{
+					readString = "";
 					while (client.available())
 					{
 						c = client.read();
 						readString += c;
 					}
-					enterData=false;
+					enterData = false;
 					client.println("HTTP/1.1 200 OK");
 					client.println("Content-Type: application/json");
 					client.println("Connnection: close");
 					client.println();
 
-					String result=ParseReadString(readString);
+					String result = ParseReadString(readString);
 					Serial.println(result);
 					client.println(result);
 					delay(500);
@@ -154,83 +154,83 @@ void CheckClient()
 					return;
 				}
 				c = client.read();   //read char by char HTTP request
-				readString +=c;
+				readString += c;
 
-				if( readString.equals("POST"))
+				if (readString.equals("POST"))
 				{
-					while (client.available())  
+					while (client.available())
 					{
 						c = client.read();
 						Serial.print(c);
-						while(c != '\n')
+						while (c != '\n')
 						{
 							c = client.read();
 
 							Serial.print(c);
 						}
 						c = client.read();
-						if (c=='\r') 
+						if (c == '\r')
 						{
 							c = client.read();
 						}
-						if (c=='\n')
-						{ 
-							enterData=true;
+						if (c == '\n')
+						{
+							enterData = true;
 							break;
 						}
-					} 
-				} 
-			}        
-		}	     
+					}
+				}
+			}
+		}
 	}
 }
 
 String ParseReadString(String message)
 {
-	String status="ok";
-	String returnMessage="";
+	String status = "ok";
+	String returnMessage = "";
 	freeMem("after  ProcessingJson");
 	aJsonObject* dataJson = aJson.parse(&message[0]);
-	if (dataJson != NULL) 
+	if (dataJson != NULL)
 	{
 #pragma region SetDevice
-		if(aJson.getObjectItem(dataJson, "SetDevice") !=NULL)
-		{	
-			aJsonObject* setDeviceJson = aJson.getObjectItem(dataJson, "SetDevice"); 
+		if (aJson.getObjectItem(dataJson, "SetDevice") != NULL)
+		{
+			aJsonObject* setDeviceJson = aJson.getObjectItem(dataJson, "SetDevice");
 			SetDeviceFromJson(setDeviceJson);
 		}
 
 #pragma endregion
 
 #pragma region SetDevices
-		else if(aJson.getObjectItem(dataJson, "SetDevices") !=NULL)
+		else if (aJson.getObjectItem(dataJson, "SetDevices") != NULL)
 		{
 			aJsonObject* setDevicesJson = aJson.getObjectItem(dataJson, "SetDevices");
-			int arraySize=aJson.getArraySize(setDevicesJson);
-			for(int i=0;i<arraySize;i++)
+			int arraySize = aJson.getArraySize(setDevicesJson);
+			for (int i = 0; i<arraySize; i++)
 			{
-				aJsonObject* setDeviceJson=aJson.getArrayItem(setDevicesJson,i);
+				aJsonObject* setDeviceJson = aJson.getArrayItem(setDevicesJson, i);
 				SetDeviceFromJson(setDeviceJson);
 			}
 		}
 #pragma endregion
 
 #pragma region SetDeleteDevice
-		else if(aJson.getObjectItem(dataJson, "SetDeleteDevice") !=NULL)
+		else if (aJson.getObjectItem(dataJson, "SetDeleteDevice") != NULL)
 		{
 			byte pin;
-			aJsonObject* setPinMode = aJson.getObjectItem(dataJson, "SetDeleteDevice"); 
-			aJsonObject* pinJson=aJson.getObjectItem(setPinMode, "Pin");			
-			pin=pinJson->valueint;	
+			aJsonObject* setPinMode = aJson.getObjectItem(dataJson, "SetDeleteDevice");
+			aJsonObject* pinJson = aJson.getObjectItem(setPinMode, "Pin");
+			pin = pinJson->valueint;
 			pinsState[pin].SetPinState(false);
 			pinsState[pin].SaveChanges();
 		}
 #pragma endregion
 
 #pragma region SetTermostat
-		else if(aJson.getObjectItem(dataJson, "SetTermostat") !=NULL)
+		else if (aJson.getObjectItem(dataJson, "SetTermostat") != NULL)
 		{
-			
+
 
 
 			int termostatId;
@@ -242,50 +242,50 @@ String ParseReadString(String message)
 
 			char* SetTermostatJson;
 			aJsonObject* termostatJson = aJson.getObjectItem(dataJson, "SetTermostat");
-			SetTermostatJson=aJson.print(termostatJson);
+			SetTermostatJson = aJson.print(termostatJson);
 			Serial.println(SetTermostatJson);
 
-			aJsonObject* termostatIdJson=aJson.getObjectItem(termostatJson, "TermostatId");
-			termostatId=termostatIdJson->valueint;
-			Serial.print("Termostat id: ");Serial.println(termostatId);
+			aJsonObject* termostatIdJson = aJson.getObjectItem(termostatJson, "TermostatId");
+			termostatId = termostatIdJson->valueint;
+			Serial.print("Termostat id: "); Serial.println(termostatId);
 
-			aJsonObject* sensorIdJson=aJson.getObjectItem(termostatJson, "SensorId");
-			sensorId=sensorIdJson->valueint;
-			Serial.print("sensorId : ");Serial.println(sensorId);
+			aJsonObject* sensorIdJson = aJson.getObjectItem(termostatJson, "SensorId");
+			sensorId = sensorIdJson->valueint;
+			Serial.print("sensorId : "); Serial.println(sensorId);
 
-			aJsonObject* termostatDevicePinJson=aJson.getObjectItem(termostatJson, "TermostatDevicePin");
-			termostatDevicePin=termostatDevicePinJson->valueint;
-			Serial.print("termostatDevicePin : ");Serial.println(termostatDevicePin);
+			aJsonObject* termostatDevicePinJson = aJson.getObjectItem(termostatJson, "TermostatDevicePin");
+			termostatDevicePin = termostatDevicePinJson->valueint;
+			Serial.print("termostatDevicePin : "); Serial.println(termostatDevicePin);
 
-			aJsonObject* SendTermostatStateJsonToServer=aJson.getObjectItem(termostatJson, "TermostatState");
-			termostatState=SendTermostatStateJsonToServer->valuebool;
-			Serial.print("termostatState : ");Serial.println(termostatState);				
+			aJsonObject* SendTermostatStateJsonToServer = aJson.getObjectItem(termostatJson, "TermostatState");
+			termostatState = SendTermostatStateJsonToServer->valuebool;
+			Serial.print("termostatState : "); Serial.println(termostatState);
 
-			termostats[termostatId]._termostat=termostatState;
+			termostats[termostatId]._termostat = termostatState;
 
-			if(termostatState)
+			if (termostatState)
 			{
-				aJsonObject* behaviorJson=aJson.getObjectItem(termostatJson, "Behavior");
-				behavior=behaviorJson->valuebool;
-				Serial.print("behavior : ");Serial.println(behavior);
+				aJsonObject* behaviorJson = aJson.getObjectItem(termostatJson, "Behavior");
+				behavior = behaviorJson->valuebool;
+				Serial.print("behavior : "); Serial.println(behavior);
 
-				aJsonObject* targetTempJson=aJson.getObjectItem(termostatJson, "TargetTemp");
-				targetTemp=targetTempJson->valuefloat;
-				Serial.print("targetTemp : ");Serial.println(targetTemp);
+				aJsonObject* targetTempJson = aJson.getObjectItem(termostatJson, "TargetTemp");
+				targetTemp = targetTempJson->valuefloat;
+				Serial.print("targetTemp : "); Serial.println(targetTemp);
 
-				termostats[termostatId]._behavior=behavior;
-				termostats[termostatId]._targetTemp=targetTemp;
+				termostats[termostatId]._behavior = behavior;
+				termostats[termostatId]._targetTemp = targetTemp;
 			}
-			else 
+			else
 			{
 				termostats[termostatId].TurnOff();
 			}
 
-			if(sensorIdJson!=NULL)
-			{			
-				termostats[termostatId]._thermostatId=termostatId;
-				termostats[termostatId]._termostatDevicePin=termostatDevicePin;
-				termostats[termostatId]._sensor=&sensors[sensorId];
+			if (sensorIdJson != NULL)
+			{
+				termostats[termostatId]._thermostatId = termostatId;
+				termostats[termostatId]._termostatDevicePin = termostatDevicePin;
+				termostats[termostatId]._sensor = &sensors[sensorId];
 			}
 			termostats[termostatId].SaveChanges();
 
@@ -297,12 +297,12 @@ String ParseReadString(String message)
 #pragma endregion
 
 #pragma region SetDeleteThermostat
-		else if(aJson.getObjectItem(dataJson, "SetDeleteThermostat") !=NULL)
-		{			
+		else if (aJson.getObjectItem(dataJson, "SetDeleteThermostat") != NULL)
+		{
 			aJsonObject* termostatJson = aJson.getObjectItem(dataJson, "SetDeleteThermostat");
-			aJsonObject* termostatIdJson=aJson.getObjectItem(termostatJson, "TermostatId");
-			int termostatId=termostatIdJson->valueint;
-			Serial.print("Termostat id: ");Serial.println(termostatId);
+			aJsonObject* termostatIdJson = aJson.getObjectItem(termostatJson, "TermostatId");
+			int termostatId = termostatIdJson->valueint;
+			Serial.print("Termostat id: "); Serial.println(termostatId);
 
 			termostats[termostatId].Delete();
 			termostats[termostatId].SaveChanges();
@@ -313,38 +313,38 @@ String ParseReadString(String message)
 
 #pragma region SetSensor
 
-		else if(aJson.getObjectItem(dataJson, "SetSensor") !=NULL)
+		else if (aJson.getObjectItem(dataJson, "SetSensor") != NULL)
 		{
 			aJsonObject* setSensorJson = aJson.getObjectItem(dataJson, "SetSensor");
-			boolean alarmCheck=false;
+			boolean alarmCheck = false;
 			float minTempAlert;
 			float maxTempAlert;
 			byte sensorPin;
 			byte sensorId;
-			aJsonObject* sensorIdJson=aJson.getObjectItem(setSensorJson, "SensorId");
-			sensorId=sensorIdJson->valueint;
-			sensors[sensorId]._sensorId=sensorId;
+			aJsonObject* sensorIdJson = aJson.getObjectItem(setSensorJson, "SensorId");
+			sensorId = sensorIdJson->valueint;
+			sensors[sensorId]._sensorId = sensorId;
 
-			aJsonObject* alartmCheckJson=aJson.getObjectItem(setSensorJson, "AlarmCheck");
+			aJsonObject* alartmCheckJson = aJson.getObjectItem(setSensorJson, "AlarmCheck");
 			Serial.print("alarm value:");
 			Serial.println(alartmCheckJson->valuebool);
-			alarmCheck=alartmCheckJson->valuebool;
-			sensors[sensorId]._alarmCheck=alarmCheck;
+			alarmCheck = alartmCheckJson->valuebool;
+			sensors[sensorId]._alarmCheck = alarmCheck;
 
-			Serial.print("alarmCheck : ");Serial.println(alarmCheck);
+			Serial.print("alarmCheck : "); Serial.println(alarmCheck);
 
-			if(alarmCheck)
+			if (alarmCheck)
 			{
-				aJsonObject* minTempAlertJson=aJson.getObjectItem(setSensorJson, "MinTempAlert");
-				aJsonObject* maxTempAlertJson=aJson.getObjectItem(setSensorJson, "MaxTempAlert");
-				sensors[sensorId]._minTempAlert=minTempAlertJson->valuefloat;
-				sensors[sensorId]._maxTempAlert=maxTempAlertJson->valuefloat;
+				aJsonObject* minTempAlertJson = aJson.getObjectItem(setSensorJson, "MinTempAlert");
+				aJsonObject* maxTempAlertJson = aJson.getObjectItem(setSensorJson, "MaxTempAlert");
+				sensors[sensorId]._minTempAlert = minTempAlertJson->valuefloat;
+				sensors[sensorId]._maxTempAlert = maxTempAlertJson->valuefloat;
 			}
-			aJsonObject* sensorPinJson=aJson.getObjectItem(setSensorJson, "SensorPin");
-			if(sensorPinJson!=NULL)
+			aJsonObject* sensorPinJson = aJson.getObjectItem(setSensorJson, "SensorPin");
+			if (sensorPinJson != NULL)
 			{
-				sensors[sensorId]._sensorPin=sensorPinJson->valueint;
-				sensors[sensorId]._oneWire=OneWire(sensorPinJson->valueint);
+				sensors[sensorId]._sensorPin = sensorPinJson->valueint;
+				sensors[sensorId]._oneWire = OneWire(sensorPinJson->valueint);
 			}
 			sensors[sensorId].SaveChanges();
 
@@ -354,12 +354,12 @@ String ParseReadString(String message)
 #pragma endregion 
 
 #pragma region SetDeleteSensor
-		else if(aJson.getObjectItem(dataJson, "SetDeleteSensor") !=NULL)
-		{		
+		else if (aJson.getObjectItem(dataJson, "SetDeleteSensor") != NULL)
+		{
 			byte sensorId;
-			aJsonObject* sensorJson=aJson.getObjectItem(dataJson, "SetDeleteSensor");
-			aJsonObject* sensorIdJson=aJson.getObjectItem(sensorJson, "SensorId");
-			sensorId=sensorIdJson->valueint;
+			aJsonObject* sensorJson = aJson.getObjectItem(dataJson, "SetDeleteSensor");
+			aJsonObject* sensorIdJson = aJson.getObjectItem(sensorJson, "SensorId");
+			sensorId = sensorIdJson->valueint;
 
 			sensors[sensorId].Delete();
 			sensors[sensorId].SaveChanges();
@@ -370,29 +370,29 @@ String ParseReadString(String message)
 #pragma endregion 
 
 #pragma region SetConfiguration
-		else if(aJson.getObjectItem(dataJson, "SetConfiguration") !=NULL)
+		else if (aJson.getObjectItem(dataJson, "SetConfiguration") != NULL)
 		{
 			aJsonObject* setConfigurationJson = aJson.getObjectItem(dataJson, "SetConfiguration");
-			aJsonObject* serverIpJson=aJson.getObjectItem(setConfigurationJson, "ServerIp");
-			aJsonObject* serverPortJson=aJson.getObjectItem(setConfigurationJson, "ServerPort");
-			aJsonObject* timeToCheckTempJson=aJson.getObjectItem(setConfigurationJson, "TimeToCheckTemp");
-			aJsonObject* timeToSendTempJson=aJson.getObjectItem(setConfigurationJson, "TimeToSendTemp");
+			aJsonObject* serverIpJson = aJson.getObjectItem(setConfigurationJson, "ServerIp");
+			aJsonObject* serverPortJson = aJson.getObjectItem(setConfigurationJson, "ServerPort");
+			aJsonObject* timeToCheckTempJson = aJson.getObjectItem(setConfigurationJson, "TimeToCheckTemp");
+			aJsonObject* timeToSendTempJson = aJson.getObjectItem(setConfigurationJson, "TimeToSendTemp");
 
-			if(serverIpJson!=NULL)
+			if (serverIpJson != NULL)
 			{
-				String ip=serverIpJson->valuestring;
-				byte a,b,c,d;						
-				sscanf(&ip[0],"%i,%i,%i,%i",&a,&b,&c,&d);
-				configuration.serverIp=IPAddress(a,b,c,d);
+				String ip = serverIpJson->valuestring;
+				byte a, b, c, d;
+				sscanf(&ip[0], "%i,%i,%i,%i", &a, &b, &c, &d);
+				configuration.serverIp = IPAddress(a, b, c, d);
 			}
-			if(serverPortJson!=NULL)
+			if (serverPortJson != NULL)
 			{
-				configuration.serverPort=serverPortJson->valueint;
-			}			
-			long  timeToCheckTemp=60*1000L*timeToCheckTempJson->valueint;
-			long  timeToSendTemp=60*1000L*timeToSendTempJson->valueint;
-			configuration.timeToCheckTemp=timeToCheckTemp;
-			configuration.timeToSendTemp=timeToSendTemp;
+				configuration.serverPort = serverPortJson->valueint;
+			}
+			long  timeToCheckTemp = 60 * 1000L * timeToCheckTempJson->valueint;
+			long  timeToSendTemp = 60 * 1000L * timeToSendTempJson->valueint;
+			configuration.timeToCheckTemp = timeToCheckTemp;
+			configuration.timeToSendTemp = timeToSendTemp;
 			eeprom_write_block((const void*)&configuration, (void*)StartInedexConfiguration, sizeof(configuration));
 			PrintConfiguration();
 
@@ -400,61 +400,61 @@ String ParseReadString(String message)
 #pragma endregion
 
 #pragma region getTemps
-		else if(aJson.getObjectItem(dataJson, "getTemps") !=NULL)
+		else if (aJson.getObjectItem(dataJson, "getTemps") != NULL)
 		{
-			aJsonObject* sensorJson=aJson.getObjectItem(dataJson, "getTemps");
-			returnMessage=CreateStringWithSensors(100,false);
+			aJsonObject* sensorJson = aJson.getObjectItem(dataJson, "getTemps");
+			returnMessage = CreateStringWithSensors(100, false);
 		}
 #pragma endregion
 
 #pragma region ClearEEPROM
-		else if(aJson.getObjectItem(dataJson, "ClearEEPROM") !=NULL)
+		else if (aJson.getObjectItem(dataJson, "ClearEEPROM") != NULL)
 		{
-			aJsonObject* termostat=aJson.getObjectItem(dataJson, "ClearEEPROM");
+			aJsonObject* termostat = aJson.getObjectItem(dataJson, "ClearEEPROM");
 			ClearStateEEPROM();
 			InitPinsState();
 		}
 
 
 #pragma endregion
-		else 
+		else
 		{
-			status="error";
+			status = "error";
 		}
 	}
-	else 
+	else
 	{
-		status="error";
+		status = "error";
 	}
 	aJson.deleteItem(dataJson);
-	String result;	
-	result="{\"Status\":\"" +status+"\",\"Message\":"; 	
-	if(returnMessage=="")
+	String result;
+	result = "{\"Status\":\"" + status + "\",\"Message\":";
+	if (returnMessage == "")
 	{
-		result+="\"\"";
+		result += "\"\"";
 	}
-	else 
+	else
 	{
-		result+=returnMessage;
+		result += returnMessage;
 	}
-	result+="}";
+	result += "}";
 	freeMem("after deletionEnd");
 	return result;
 }
 
-void SendDateToServer(String dataSent,String api)
+void SendDateToServer(String dataSent, String api)
 {
-	Serial.print("Ip:"); 
-	Serial.println(configuration.serverIp); 
-	Serial.print("port:"); 
-	Serial.println(configuration.serverPort); 
-	Serial.println(dataSent); 
+	Serial.print("Ip:");
+	Serial.println(configuration.serverIp);
+	Serial.print("port:");
+	Serial.println(configuration.serverPort);
+	Serial.println(dataSent);
 
-	if (dataSent!=""&&ethernetClient.connect(configuration.serverIp, configuration.serverPort)) {
+	if (dataSent != ""&&ethernetClient.connect(configuration.serverIp, configuration.serverPort)) {
 		Serial.println("connect to server");
 		ethernetClient.print("POST ");
 		ethernetClient.print(ApiControllerURL);
-		ethernetClient.print(api);			
+		ethernetClient.print(api);
 		ethernetClient.println(" HTTP/1.1");
 		ethernetClient.print("Host: ");
 		ethernetClient.println(configuration.serverIp);
@@ -475,40 +475,40 @@ void SendDateToServer(String dataSent,String api)
 
 void SendTempsToServer()
 {
-	String jsonSensors=CreateStringWithSensors(100,false);
-	if(jsonSensors!=NULL)
-	{	
-		SendDateToServer(jsonSensors,"PostSensors");
+	String jsonSensors = CreateStringWithSensors(100, false);
+	if (jsonSensors != NULL)
+	{
+		SendDateToServer(jsonSensors, "PostSensors");
 	}
 }
 
-String CreateStringWithSensors(int sensorId,bool allFields)
+String CreateStringWithSensors(int sensorId, bool allFields)
 {
-	bool sentSensort=false;
+	bool sentSensort = false;
 	String json;
 	String result;
-	if(sensorId==100)
+	if (sensorId == 100)
 	{
-		for(int i=0;i<20;i++)
+		for (int i = 0; i<20; i++)
 		{
-			if(sensors[i]._sensorPin==100)
+			if (sensors[i]._sensorPin == 100)
 			{
 				continue;
 			}
 			json.concat(sensors[i].GetStateInJson(allFields));
 			json.concat(",");
-			sentSensort=true;
+			sentSensort = true;
 		}
 	}
-	else 
+	else
 	{
-		if(sensors[sensorId]._sensorPin!=100)
+		if (sensors[sensorId]._sensorPin != 100)
 		{
 			json.concat(sensors[sensorId].GetStateInJson(allFields));
-			sentSensort=true;
+			sentSensort = true;
 		}
 	}
-	if(sentSensort)
+	if (sentSensort)
 	{
 		result.concat("{\"Temps\":[");
 		result.concat(json);
@@ -520,18 +520,18 @@ String CreateStringWithSensors(int sensorId,bool allFields)
 void SetDeviceFromJson(aJsonObject* json)
 {
 	byte pin;
-	boolean state;	 
-	aJsonObject* pinJson=aJson.getObjectItem(json, "Pin");
-	aJsonObject* stateJson=aJson.getObjectItem(json, "State");
-	pin=pinJson->valueint;
-	state=stateJson->valuebool;
+	boolean state;
+	aJsonObject* pinJson = aJson.getObjectItem(json, "Pin");
+	aJsonObject* stateJson = aJson.getObjectItem(json, "State");
+	pin = pinJson->valueint;
+	state = stateJson->valuebool;
 	pinsState[pin].SetPinState(state);
-	pinsState[pin].SaveChanges();	
+	pinsState[pin].SaveChanges();
 }
 
 void CheckTermostats()
 {
-	for(int i=0;i<ArrayTermostatsSize;i++)
+	for (int i = 0; i<ArrayTermostatsSize; i++)
 	{
 		termostats[i].Check();
 	}
@@ -539,9 +539,9 @@ void CheckTermostats()
 
 void CheckSensorAlarm()
 {
-	for(int i=0;i<ArraySensorsSize;i++)
+	for (int i = 0; i<ArraySensorsSize; i++)
 	{
-		if(sensors[i].Check())
+		if (sensors[i].Check())
 		{
 			AlertSensor(i);
 			sensors[i].TurnOffAlarm();
@@ -553,19 +553,19 @@ void CheckSensorAlarm()
 void AlertSensor(int sensorId)
 {
 	sensors[sensorId].Alert();
-	String sensor=sensors[sensorId].GetStateInJson(false);
-	SendDateToServer(sensor,"PostAlarm");
+	String sensor = sensors[sensorId].GetStateInJson(false);
+	SendDateToServer(sensor, "PostAlarm");
 }
 
 void InitPinsState()
 {
-	for(int i=1;i<MaxNumberPins;i++)
+	for (int i = 1; i<MaxNumberPins; i++)
 	{
-		pinsState[i]._pin=i;
-		if(pinsState[i]._mode!=3)
+		pinsState[i]._pin = i;
+		if (pinsState[i]._mode != 3)
 		{
-			pinMode(i,pinsState[i]._mode);
-			digitalWrite(i,pinsState[i]._state);
+			pinMode(i, pinsState[i]._mode);
+			digitalWrite(i, pinsState[i]._state);
 		}
 	}
 
@@ -590,7 +590,7 @@ void ClearStateEEPROM()
 	Termostat clearTermostats[ArrayTermostatsSize];
 	Sensor clearSensors[ArraySensorsSize];
 	PinState clearPinsState[MaxNumberPins];
-	Configuration clearConfiguration={DefaultTimeToCheckTemp,DefaultTimeToSendTemp,ServerPort,(0,0,0,0)};
+	Configuration clearConfiguration = { DefaultTimeToCheckTemp, DefaultTimeToSendTemp, ServerPort, (0, 0, 0, 0) };
 	eeprom_write_block((const void*)&clearTermostats, (void*)StartInedexTermostat, sizeof(termostats));
 	eeprom_write_block((const void*)&clearSensors, (void*)StartInedexSensor, sizeof(clearSensors));
 	eeprom_write_block((const void*)&clearPinsState, (void*)StartInedexPinState, sizeof(clearPinsState));
@@ -602,7 +602,7 @@ void ClearStateEEPROM()
 
 void PrintTermostats()
 {
-	for(int i=0;i<ArrayTermostatsSize;i++)
+	for (int i = 0; i<ArrayTermostatsSize; i++)
 	{
 		termostats[i].PrintTermostat();
 	}
@@ -610,7 +610,7 @@ void PrintTermostats()
 
 void PrintSensors()
 {
-	for(int i=0;i<ArraySensorsSize;i++)
+	for (int i = 0; i<ArraySensorsSize; i++)
 	{
 		sensors[i].PrintSensors();
 	}
@@ -618,8 +618,8 @@ void PrintSensors()
 
 void PrintPinsState()
 {
-	for(int i=1;i<54;i++)
-	{	
+	for (int i = 1; i<54; i++)
+	{
 		pinsState[i].PrintPinState();
 	}
 }
@@ -628,8 +628,8 @@ void PrintConfiguration()
 {
 	Serial.print("ServerIP IP address: ");
 	Serial.println(configuration.serverIp);
-	Serial.print("timeToSendTemp : ");Serial.println(configuration.timeToSendTemp);
-	Serial.print("TimeToCheckTemp : ");Serial.println(configuration.timeToCheckTemp);
+	Serial.print("timeToSendTemp : "); Serial.println(configuration.timeToSendTemp);
+	Serial.print("TimeToCheckTemp : "); Serial.println(configuration.timeToCheckTemp);
 }
 #pragma endregion 
 
@@ -665,8 +665,8 @@ uint16_t freeMem(uint16_t *biggest)
 	for (*biggest = 0, fp1 = __flp, fp2 = 0;
 		fp1;
 		fp2 = fp1, fp1 = fp1->nx) {
-			if (fp1->sz > *biggest) *biggest = fp1->sz;
-			freeSpace += fp1->sz;
+		if (fp1->sz > *biggest) *biggest = fp1->sz;
+		freeSpace += fp1->sz;
 	}
 
 	return freeSpace;
